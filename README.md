@@ -6,6 +6,7 @@ Ovo je jedna jednostavna React aplikacija koja prikazuje trenutnu vremensku prog
 - Pretraga gradova i prikaz trenutne vremenske prognoze
 - Prikaz osnovnih meteoroloških podataka (temperatura, vlažnost, vetar, opis vremena)
 - Prikaz ikone koja odgovara trenutnom vremenu
+- Prikaz vremenske prognoze par dana unaprijed
 
 ## Tehnologije
 - React
