@@ -1,6 +1,20 @@
 ﻿import React, { useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 
+// Funkcija za gradijent pozadine
+const getWeatherGradientClass = (weatherMain, iconCode) => {
+    const isNight = iconCode && iconCode.includes('n');
+    const weatherLower = weatherMain?.toLowerCase() || 'clear';
+
+    let bgClass = `gradient-${weatherLower}`;
+
+    if (isNight) {
+        bgClass += ' night';
+    }
+
+    return bgClass;
+};
+
 export default function WeatherCard({ data }) {
     const cardRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
@@ -10,13 +24,56 @@ export default function WeatherCard({ data }) {
 
     const desc = data.description_lat || data.description || '';
     const iconCode = data.icon;
+    const weatherMain = data.main;
 
-    const getIconSrc = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    // Dobij CSS klasu za gradijent pozadinu
+    const backgroundClass = getWeatherGradientClass(weatherMain, iconCode);
 
+    // TEMP TEST - forsiraj vanjske ikone
+    const getIconSrc = () => {
+        if (!iconCode) {
+            return '/icons/weather-placeholder.svg';
+        }
+        // Direktno koristi vanjsku ikonu za test
+        return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    };
+
+    const downloadCard = async () => {
+        const el = cardRef.current;
+        if (!el) return;
+
+        try {
+            const canvas = await html2canvas(el, {
+                backgroundColor: null,
+                scale: 2,
+                useCORS: true,
+                allowTaint: true
+            });
+            const url = canvas.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${data.city || 'weather'}.png`;
+            a.click();
+        } catch (e) {
+            console.error('Download failed', e);
+            alert('Preuzimanje nije uspjelo. Pokušaj ponovo.');
+        }
+    };
+
+    const handleImgError = () => {
+        console.log('GREŠKA - Vanjska ikona se nije učitala:', getIconSrc());
+        console.log('Icon code:', iconCode);
+        setImgError(true);
+    };
+
+    const handleImgLoad = () => {
+        console.log('✅ Ikona uspješno učitana:', getIconSrc());
+        console.log('Icon code:', iconCode);
+    };
 
     return (
         <div className="card-wrap fade-in">
-            <div className="weather-card" aria-live="polite" ref={cardRef}>
+            <div className={`weather-card ${backgroundClass}`} aria-live="polite" ref={cardRef}>
                 <div className="left">
                     <div className="city">
                         <strong>{data.city}</strong>{data.country ? `, ${data.country}` : ''}
@@ -38,11 +95,23 @@ export default function WeatherCard({ data }) {
                 <div className="right">
                     <div className="icon-circle">
                         <img
-                            src={imgError ? '/icons/weather-placeholder.svg' : getIconSrc}
+                            src={imgError ? '/icons/weather-placeholder.svg' : getIconSrc()}
                             alt={desc || 'weather icon'}
                             className="weather-icon"
+                            onError={handleImgError}
+                            onLoad={handleImgLoad}
                             crossOrigin="anonymous"
                         />
+                    </div>
+
+                    <div className="actions">
+                        <button
+                            className="icon-btn"
+                            onClick={downloadCard}
+                            title="Preuzmi karticu"
+                        >
+                            Preuzmi
+                        </button>
                     </div>
                 </div>
             </div>

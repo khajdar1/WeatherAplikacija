@@ -1,268 +1,482 @@
 ﻿body, html, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-  background: url('/vrijeme.jpg') center center / cover no-repeat fixed;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: url('/vrijeme.jpg') center center / cover no-repeat fixed;
 }
 
+/* ===== GLAVNI LAYOUT ===== */
 .app {
-  min-height: 100vh;
-  background: rgba(255,255,255,0.65);
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    min-height: 100vh;
+    background: rgba(255,255,255,0.65); /* Polu-transparentni overlay */
+    backdrop-filter: blur(6px); /* Blur efekat */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container {
-  width: 100%;
-  max-width: 540px;
-  margin: 40px auto;
-  padding: 32px 0;
+    width: 100%;
+    max-width: 540px;
+    margin: 40px auto;
+    padding: 32px 0;
 }
 
+/* ===== HEADER (Logo + Naslov) ===== */
 header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
 }
 
 .logo {
-  background: #2563eb;
-  color: white;
-  font-weight: bold;
-  font-size: 1.15em;
-  border-radius: 8px;
-  padding: 8px 14px;
-  letter-spacing: 2px;
-  box-shadow: 0 2px 8px rgba(37,99,235,0.09);
+    background: #2563eb; /* Plava boja */
+    color: white;
+    font-weight: bold;
+    font-size: 1.15em;
+    border-radius: 8px;
+    padding: 8px 14px;
+    letter-spacing: 2px; /* Razmak između slova */
+    box-shadow: 0 2px 8px rgba(37,99,235,0.09);
 }
 
 h1 {
-  color: #2563eb;
-  font-size: 1.45em;
-  margin: 0;
-  font-weight: 600;
+    color: #2563eb;
+    font-size: 1.45em;
+    margin: 0;
+    font-weight: 600;
 }
 
+/* ===== SEARCH SEKCIJA ===== */
 .search-row {
-  margin-bottom: 18px;
+    margin-bottom: 18px;
 }
+
+/* ===== SEARCH FORM POPRAVKA ===== */
 
 .search-form {
-  width: 100%;
+    width: 100%;
+    display: flex;
+    gap: 12px; /* Razmak između input-a i button-a */
+    align-items: center;
+    margin-bottom: 18px;
 }
 
-input[type="text"] {
-  width: 100%;
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  font-size: 1em;
-  background: rgba(255,255,255,0.95);
-  transition: border 0.15s;
-  outline: none;
+    /* Input polje */
+    .search-form input[type="text"] {
+        flex: 1; /* Uzima sav dostupan prostor */
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        font-size: 1em;
+        background: rgba(255,255,255,0.95);
+        transition: border 0.15s;
+        outline: none;
+        min-width: 0; /* Sprječava overflow */
+    }
+
+        .search-form input[type="text"]:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px #2563eb22;
+        }
+
+    /* Button */
+    .search-form button {
+        padding: 12px 20px; /* Ista visina kao input */
+        background: #2563eb;
+        color: white;
+        font-weight: 500;
+        border: none;
+        border-radius: 12px; /* Isti border radius kao input */
+        cursor: pointer;
+        font-size: 1em;
+        transition: background 0.13s;
+        white-space: nowrap; /* Ne dozvoljava prelamanje teksta */
+        flex-shrink: 0; /* Button se neće smanjivati */
+    }
+
+        .search-form button:hover {
+            background: #1e40af;
+        }
+
+/* Responsive - na malim ekranima */
+@media (max-width: 500px) {
+    .search-form {
+        flex-direction: column; /* Vertikalno slaganje na mobilu */
+        gap: 10px;
+    }
+
+        .search-form button {
+            width: 100%; /* Dugme preko cijele širine */
+        }
 }
 
-input[type="text"]:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px #2563eb22;
-}
-
+/* Osnovni button stil */
 button {
-  padding: 8px 16px;
-  background: #2563eb;
-  color: white;
-  font-weight: 500;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.98em;
-  transition: background 0.13s;
+    padding: 8px 16px;
+    background: #2563eb;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.98em;
+    transition: background 0.13s;
 }
 
-button:hover {
-  background: #1e40af;
-}
+    button:hover {
+        background: #1e40af; /* Tamnija plava na hover */
+    }
 
+/* ===== ISTORIJA (History buttons) ===== */
 .history {
-  margin-bottom: 12px;
-  font-size: 0.96em;
+    margin-bottom: 20px;
+    font-size: 1em;
+    
 }
 
 .history-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 3px;
+    display: flex;
+    flex-wrap: wrap; /* Omogućava prelomljenje u novi red */
+    gap: 8px; /* Razmak između dugmića */
+    margin-top: 7px;
 }
 
 .history-item {
-  background: #e0e7ff;
-  color: #2563eb;
-  border-radius: 8px;
-  border: none;
-  padding: 6px 16px;
-  font-size: 0.95em;
-  cursor: pointer;
-  transition: background 0.18s;
-}
-.history-item:hover {
-  background: #2563eb;
-  color: white;
+    background: #e0e7ff; /* Svijetlo plava */
+    color: #2563eb;
+    border-radius: 8px;
+    border: none;
+    padding: 6px 16px;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: background 0.18s;
+    white-space: nowrap; /* Sprječava prelamanje teksta */
 }
 
+    .history-item:hover {
+        background: #2563eb; /* Mijenja se u plavu */
+        color: white;
+    }
+
+/* ===== WEATHER KARTICA (Glavna kartica s vremenom) ===== */
+/* ===== DODAJ OVO U SVOJ CSS FAJL ===== */
+
+/* Osnovni weather-card stil s pozicioniranjem */
 .weather-card {
-  background: white;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(37,99,235,0.09);
-  padding: 32px 28px;
-  margin: 0 auto 18px auto;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  min-width: 320px;
-  max-width: 420px;
+    background: white; /* fallback */
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    padding: 32px 28px;
+    margin: 0 auto 18px auto;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    min-width: 450px;
+    max-width: 550px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
 }
 
-.weather-card .left {
-  flex: 1 1 60%;
-}
+    /* Overlay za čitljivost teksta */
+    .weather-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(1px);
+        z-index: 1;
+        border-radius: 18px;
+    }
 
-.weather-card .city {
-  font-size: 1.18em;
-  font-weight: 700;
-  color: #2563eb;
-  margin-bottom: 5px;
-}
+    /* Sadržaj mora biti iznad overlay-a */
+    .weather-card > * {
+        position: relative;
+        z-index: 2;
+    }
 
-.weather-card .temp {
-  font-size: 2.6em;
-  color: #0ea5e9;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
+    /* ===== GRADIJENTI PO VREMENU ===== */
 
-.weather-card .meta.desc {
-  color: #475569;
-  font-size: 1em;
-  margin-bottom: 7px;
-}
+    /* Clear Sky - Sunčano */
+    .weather-card.gradient-clear {
+        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #fdcb6e 100%);
+    }
 
-.weather-card .details {
-  font-size: 0.98em;
-  color: #334155;
-  margin-top: 10px;
-  display: flex;
-  gap: 18px;
-}
+    /* Clouds - Oblačno */
+    .weather-card.gradient-clouds {
+        background: linear-gradient(135deg, #ddd6fe 0%, #a78bfa 50%, #8b5cf6 100%);
+    }
 
-.weather-card .details > div {
-  white-space: nowrap;
-}
+    /* Rain - Kiša */
+    .weather-card.gradient-rain {
+        background: linear-gradient(135deg, #64748b 0%, #475569 50%, #334155 100%);
+    }
 
-.weather-card .right {
-  flex: 0 0 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    /* Thunderstorm - Grmljavina */
+    .weather-card.gradient-thunderstorm {
+        background: linear-gradient(135deg, #374151 0%, #1f2937 50%, #111827 100%);
+    }
+
+    /* Snow - Snijeg */
+    .weather-card.gradient-snow {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+    }
+
+    /* Drizzle - Rosulja */
+    .weather-card.gradient-drizzle {
+        background: linear-gradient(135deg, #94a3b8 0%, #64748b 50%, #475569 100%);
+    }
+
+    /* Fog/Mist - Magla */
+    .weather-card.gradient-mist,
+    .weather-card.gradient-fog {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+    }
+
+    /* Haze - Izmaglica */
+    .weather-card.gradient-haze {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #f59e0b 100%);
+    }
+
+    /* ===== NOĆNE VARIJANTE ===== */
+    .weather-card.night::before {
+        background: rgba(0, 0, 0, 0.4); /* Tamniji overlay */
+    }
+
+    .weather-card.night .city,
+    .weather-card.night .temp {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .weather-card.night .meta.desc,
+    .weather-card.night .details {
+        color: #e5e7eb !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Lijevi dio kartice (tekst) */
+    .weather-card .left {
+        flex: 1; /* Uzima sav dostupan prostor */
+        text-align: left;
+    }
+
+    .weather-card .city {
+        font-size: 1.3em; /* Blago povećan font */
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 8px;
+    }
+
+    .weather-card .temp {
+        font-size: 3em; /* Povećana temperatura */
+        color: #0ea5e9;
+        font-weight: 600;
+        margin-bottom: 8px;
+        line-height: 1; /* Kompaktniji prikaz */
+    }
+
+    .weather-card .meta.desc {
+        color: #475569;
+        font-size: 1.1em; /* Blago povećan opis */
+        margin-bottom: 15px;
+        text-transform: capitalize;
+    }
+
+    .weather-card .details {
+        font-size: 1em;
+        color: #334155;
+        display: flex;
+        flex-direction: column; /* Vertikalno slaganje detalja */
+        gap: 6px; /* Manji razmak između linija */
+    }
+
+        .weather-card .details > div {
+            white-space: nowrap;
+            font-size: 0.95em;
+        }
+
+    /* Desni dio kartice (ikona) */
+    .weather-card .right {
+        flex: 0 0 120px; /* Povećana fiksna širina */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
 .icon-circle {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #93c5fd22 0%, #f3f4f6 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
+    width: 90px; /* Povećan krug */
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f1f5f9 100%); /* Jači gradient */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 12px rgba(37,99,235,0.1); /* Dodana sjena */
 }
 
 .weather-icon {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
+    width: 64px; /* Povećana ikona */
+    height: 64px;
+    object-fit: contain;
+    filter: brightness(1.1) saturate(1.1); /* Poboljšan kontrast */
 }
 
+/* Dodatni stil za actions dugmad (ako ih imaš) */
+.weather-card .actions {
+    margin-top: 10px;
+}
+
+    .weather-card .actions button {
+        padding: 8px 16px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9em;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+        .weather-card .actions button:hover {
+            background: #1e40af;
+        }
+
+/* ===== FORECAST (Prognoza za nekoliko dana) ===== */
 .forecast-wrap {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
-.forecast-wrap h3 {
-  color: #2563eb;
-  font-size: 1.1em;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
+    .forecast-wrap h3 {
+        color: #2563eb;
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
 
 .forecast-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column; /* Vertikalno slaganje */
+    gap: 12px;
 }
 
 .forecast-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(37,99,235,0.06);
-  padding: 18px 22px;
-  min-width: 220px;
-  max-width: 320px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  transition: box-shadow 0.14s, transform 0.16s;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(37,99,235,0.06);
+    padding: 18px 28px;
+    width: 350px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 24px; /* Povećan razmak između elemenata */
+    transition: box-shadow 0.14s, transform 0.16s;
 }
 
-.forecast-card:hover {
-  box-shadow: 0 6px 32px rgba(37,99,235,0.13);
-  transform: translateY(-2px) scale(1.01);
-}
+    /* Hover efekat na forecast kartice */
+    .forecast-card:hover {
+        box-shadow: 0 6px 32px rgba(37,99,235,0.13);
+        transform: translateY(-2px) scale(1.01); /* Blago podiže i uvećava */
+    }
 
 .forecast-date {
-  color: #2563eb;
-  font-weight: 600;
-  font-size: 1.02em;
-  min-width: 95px;
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 1.1rem;
+    min-width: 110px; /* Fiksna širina */
 }
 
 .forecast-icon {
-  width: 32px;
-  height: 32px;
-  margin-right: 10px;
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
 }
 
 .forecast-temp {
-  font-size: 1.2em;
-  color: #0ea5e9;
-  font-weight: 500;
-  min-width: 40px;
+    font-size: 1.3rem;
+    color: #0ea5e9;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
 }
 
 .forecast-desc {
-  color: #334155;
-  font-size: 1em;
-  text-transform: capitalize;
+    color: #444;
+    font-size: 1rem;
+    text-transform: capitalize; /* Prvo slovo veliko */
+    margin-left: 18px;
+    min-width: 120px;
 }
 
+.weather-emoji {
+    font-size: 3em;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    animation: float 3s ease-in-out infinite;
+    margin-bottom: 9px;
+    margin-left: 4px;
+}
+
+footer{
+    margin-top: 10px;
+}
 /* Responsive */
 @media (max-width: 600px) {
-  .container {
-    max-width: 97vw;
-    padding: 12px 0;
-  }
-  .weather-card,
-  .forecast-card {
-    min-width: 90vw;
-    max-width: 99vw;
-    padding: 16px 10px;
-  }
-  .weather-card {
-    flex-direction: column;
-    gap: 14px;
-  }
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .weather-logo {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5em;
+    }
+
+    h1 {
+        font-size: 1.5em;
+        text-align: center;
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 600px) {
+    .weather-card {
+        min-width: 95vw;
+        max-width: 95vw;
+        flex-direction: column; /* Vertikalno na mobilu */
+        gap: 25px;
+        padding: 25px 20px;
+        text-align: center;
+    }
+
+        .weather-card .left {
+            text-align: center;
+        }
+
+        .weather-card .details {
+            align-items: center;
+            text-align: center;
+        }
+
+        .weather-card .right {
+            flex: none;
+        }
+
+    .icon-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .weather-icon {
+        width: 70px;
+        height: 70px;
+    }
 }

@@ -19,7 +19,7 @@ export default function App() {
         try {
             const raw = localStorage.getItem(HISTORY_KEY);
             if (raw) setHistory(JSON.parse(raw));
-        } catch (e) { }
+        } catch (e) { console.log(e) }
     }, []);
 
     const saveHistory = (city) => {
@@ -51,8 +51,8 @@ export default function App() {
         <div className="app">
             <div className="container">
                 <header>
-                    <div className="logo">WA</div>
-                    <h1>Weather App</h1>
+                    <div className="weather-emoji">🌤️</div>
+                    <h1>Vremenska Prognoza</h1>
                 </header>
 
                 <div className="search-row">
@@ -63,7 +63,7 @@ export default function App() {
 
                 {history.length > 0 && (
                     <div className="history">
-                        <small>Istorija:</small>
+                        <small>Historija:</small>
                         <div className="history-list">
                             {history.map((h) => (
                                 <button key={h} className="history-item" onClick={() => doSearch(h)}>{h}</button>
