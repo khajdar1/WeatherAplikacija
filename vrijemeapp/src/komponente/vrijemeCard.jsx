@@ -17,7 +17,6 @@ const getWeatherGradientClass = (weatherMain, iconCode) => {
 
 export default function WeatherCard({ data }) {
     const cardRef = useRef(null);
-    const [imgSrc, setImgSrc] = useState(null);
     const [imgError, setImgError] = useState(false);
 
     if (!data) return null;
@@ -26,15 +25,12 @@ export default function WeatherCard({ data }) {
     const iconCode = data.icon;
     const weatherMain = data.main;
 
-    // Dobij CSS klasu za gradijent pozadinu
     const backgroundClass = getWeatherGradientClass(weatherMain, iconCode);
 
-    // TEMP TEST - forsiraj vanjske ikone
     const getIconSrc = () => {
         if (!iconCode) {
             return '/icons/weather-placeholder.svg';
         }
-        // Direktno koristi vanjsku ikonu za test
         return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
     };
 

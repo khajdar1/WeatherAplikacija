@@ -15,7 +15,7 @@ export default function Search({ onSearch }) {
         <form onSubmit={handleSubmit} className="search-form">
             <input
                 type="text"
-                placeholder="Unesi ime grada (npr. Belgrade)"
+                placeholder="Unesi ime grada (npr. Sarajevo)"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 aria-label="search-city"
